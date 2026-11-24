@@ -1,0 +1,11 @@
+@font-face {
+    font-family: "Faith Collapsing";
+    src: url(../fonts/faith_collapsing.ttf) format("truetype");
+    font-weight: normal;
+    font-style: normal;
+}
+
+h1 {
+    font-family: Faith Collapsing, Helvetica, sans-serif;
+    font-size: 64px;
+}
