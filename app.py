@@ -1,9 +1,18 @@
 from flask import Flask, render_template, request
 import pyautogui as auto
+import webview
+
 from datetime import date
+import os
+import sys
 
 
-app = Flask(__name__)
+if getattr(sys,'frozen',False):
+    template_folder = os.path.join(sys._MEIPASS,'templates')
+    static_folder = os.path.join(sys._MEIPASS,'static')
+    app = Flask(__name__,template_folder=template_folder,static_folder=static_folder)
+else:
+    app = Flask(__name__)
 
 def abrir_terminal(repositorio):
     auto.hotkey('win','r')
@@ -23,7 +32,7 @@ def commitar(hoje):
     auto.write('exit')
     auto.press('enter')
 
-@app.route('/',methods=['GET', 'POST'])
+@app.route('/',methods=['GET','POST'])
 def index():
     hoje = date.today().strftime("%d/%m/%Y")
     repositorio = None
@@ -34,6 +43,11 @@ def index():
         commitar(hoje)
     return render_template('index.html')
 
-
 if __name__ == '__main__':
-    app.run(debug=True)
+    window = webview.create_window(
+        title="Rafael's Gitergeist v2.0",
+        url=app,
+        width=1000,
+        height=700
+    )
+    webview.start()
